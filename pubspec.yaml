@@ -12,7 +12,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_bloc: ^7.2.0
   intl: ^0.17.0
+  path: ^1.8.0
+  path_provider: ^2.0.3
+  sqflite: ^2.0.0+4
 
 dev_dependencies:
   flutter_test:

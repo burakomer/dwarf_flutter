@@ -149,6 +149,14 @@ extension BoolExtensions on bool {
 }
 
 extension DateTimeExtensions on DateTime {
+  static final _shortDateFormat = DateFormat('yMd');
+  static final _longDateFormat = DateFormat('dd MMMM yyyy');
+  static final _longDateFormatWithTime = DateFormat('dd MMMM yyyy HH:mm');
+  static final _justTimeDateFormat = DateFormat('HH:mm');
+
+  static final _shortDateFormatWithTime = DateFormat('dd MMMM HH:mm');
+  static final _timeFormat = DateFormat('HH:mm');
+
   bool isSameDate(DateTime other) {
     return this.year == other.year && this.month == other.month && this.day == other.day;
   }
@@ -164,10 +172,38 @@ extension DateTimeExtensions on DateTime {
   DateTime get endOfDay {
     return DateTime(this.year, this.month, this.day, 23, 59, 59, 999, 999);
   }
+
+  String get longDateFormat => _longDateFormat.format(this);
 }
 
 extension WidgetExtensions on Widget {
   Widget wrapIf(bool condition, Widget Function(Widget) wrapper) {
     return condition ? wrapper(this) : this;
+  }
+}
+
+extension MapExtensions<K, V> on Map<K, V> {
+  Map<K, V> append(Map<K, V> map) {
+    this.addAll(map);
+    return this;
+  }
+}
+
+extension JsonMapExtensions on Map<String, dynamic> {
+  int getInt(String key) {
+    return this[key] ?? 0;
+  }
+
+  String getString(String key) {
+    return this[key] ?? "";
+  }
+
+  double getDouble(String key) {
+    return this[key] ?? 0.0;
+  }
+
+  DateTime getDateTime(String key) {
+    if (this[key] == null) return DateTime(2000);
+    return DateTime.parse(this[key]);
   }
 }

@@ -36,17 +36,10 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canPop = Navigator.of(context).canPop();
-
     final appBar = AppBar(
       title: Text(
         title,
-        style: canPop
-            ? Theme.of(context).appBarTheme.titleTextStyle!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24.0,
-                )
-            : Theme.of(context).appBarTheme.titleTextStyle,
+        style: Theme.of(context).appBarTheme.titleTextStyle,
       ),
       actions: actions,
       automaticallyImplyLeading: false,
