@@ -173,8 +173,13 @@ extension DateTimeExtensions on DateTime {
   static final _shortDateFormatWithTime = DateFormat('dd MMMM HH:mm');
   static final _timeFormat = DateFormat('HH:mm');
 
-  bool isSameDate(DateTime other) {
-    return this.year == other.year && this.month == other.month && this.day == other.day;
+  bool isSameDate(
+    DateTime other, {
+    bool year = true,
+    bool month = true,
+    bool day = true,
+  }) {
+    return (!year || (this.year == other.year)) && (!month || (this.month == other.month)) && (!day || (this.day == other.day));
   }
 
   DateTime get beginningOfDay {
