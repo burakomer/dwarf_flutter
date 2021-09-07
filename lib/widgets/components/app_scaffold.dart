@@ -71,7 +71,7 @@ class AppScaffold extends StatelessWidget {
     return Navigator.of(context).canPop()
         ? IconButton(
             onPressed: () => Navigator.of(context).maybePop(),
-            icon: Icon(Icons.chevron_left),
+            icon: Icon(Icons.chevron_left_rounded),
           )
         : null;
   }

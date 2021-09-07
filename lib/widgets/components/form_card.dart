@@ -13,7 +13,7 @@ class FormCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        padding: const EdgeInsets.only(left: 12.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: child,
       ),
     );

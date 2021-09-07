@@ -71,8 +71,24 @@ Future<bool?> showBooleanDialog({
               const SizedBox(),
               Row(
                 children: [
-                  elevatedCancelButton ? ElevatedButton(onPressed: () => Navigator.of(context).pop(false), child: Text(cancelText)) : TextButton(onPressed: () => Navigator.of(context).pop(true), child: Text(cancelText)),
-                  elevatedOkayButton ? ElevatedButton(onPressed: () => Navigator.of(context).pop(true), child: Text(okayText)) : TextButton(onPressed: () => Navigator.of(context).pop(false), child: Text(okayText)),
+                  elevatedCancelButton
+                      ? ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: Text(cancelText),
+                        )
+                      : TextButton(
+                          onPressed: () => Navigator.of(context).pop(false),
+                          child: Text(cancelText),
+                        ),
+                  elevatedOkayButton
+                      ? ElevatedButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: Text(okayText),
+                        )
+                      : TextButton(
+                          onPressed: () => Navigator.of(context).pop(true),
+                          child: Text(okayText),
+                        ),
                 ],
               ),
             ],

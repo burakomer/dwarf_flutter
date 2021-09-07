@@ -6,6 +6,7 @@ import 'package:flutter_material_color_picker/flutter_material_color_picker.dart
 import 'generic_text_field.dart';
 
 class FormColorPicker extends StatelessWidget {
+  final TextEditingController controller;
   final String labelText;
   final String initialValue;
   final void Function(Color) onSelectColor;
@@ -14,6 +15,7 @@ class FormColorPicker extends StatelessWidget {
 
   const FormColorPicker({
     Key? key,
+    required this.controller,
     required this.labelText,
     required this.initialValue,
     required this.onSelectColor,
@@ -22,6 +24,7 @@ class FormColorPicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GenericTextField(
+      controller: controller,
       labelText: labelText,
       initialValue: initialValue,
       onSaved: (value) {},
@@ -36,7 +39,7 @@ class FormColorPicker extends StatelessWidget {
         }
       },
       trailing: Card(
-        margin: EdgeInsets.only(right: 12.0),
+        margin: EdgeInsets.only(right: 0.0),
         color: initialColor,
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(8.0)),

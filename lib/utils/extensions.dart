@@ -79,10 +79,16 @@ extension WidgetListExtensions on List<Widget> {
   }
 }
 
-extension NullableWidgetListExtensions on List<Widget?> {
+extension WidgetNListExtensions on List<Widget?> {
   List<Widget> removeNulls() {
     this.removeWhere((element) => element == null);
     return this.map((e) => e!).toList();
+  }
+}
+
+extension WidgetNExtensions on Widget? {
+  List<Widget> toList({List<Widget> ifNull = const []}) {
+    return this != null ? [this!] : ifNull;
   }
 }
 
@@ -137,12 +143,17 @@ extension DoubleExtensions on double {
 
 extension NumberExtensions on num {
   String toStringWithOptions({
+    bool emptyIfNegative = false,
+    bool formatted = true,
     NumberFormat? numberFormat,
     String leading = "",
     String trailing = "",
   }) {
+    final isEmpty = emptyIfNegative && this < 0;
     final format = numberFormat ?? NumberFormat("#,###.##", "en_US");
-    return "$leading${format.format(this)}$trailing";
+
+    final number = isEmpty ? "" : (formatted ? format.format(this) : this.toString());
+    return isEmpty ? "" : "$leading$number$trailing";
   }
 }
 
@@ -152,19 +163,18 @@ extension BoolExtensions on bool {
 
 extension DateTimeExtensions on DateTime {
   static final _shortDateFormat = DateFormat('yMd');
-  static final _longDateFormat = DateFormat('dd MMMM yyyy');
-  static final _longDateFormatWithTime = DateFormat('dd MMMM yyyy HH:mm');
-  static final _justTimeDateFormat = DateFormat('HH:mm');
+  static final _mediumDateFormat = DateFormat('d MMM yyyy');
+  static final _longDateFormat = DateFormat('d MMMM yyyy');
+  static final _longDateFormatWithTime = DateFormat('d MMM yyyy HH:mm');
+
+  static final _mediumMonthFormat = DateFormat('MMM yyyy');
+  static final _longMonthFormat = DateFormat('MMMM yyyy');
 
   static final _shortDateFormatWithTime = DateFormat('dd MMMM HH:mm');
   static final _timeFormat = DateFormat('HH:mm');
 
   bool isSameDate(DateTime other) {
     return this.year == other.year && this.month == other.month && this.day == other.day;
-  }
-
-  DateTime get datePart {
-    return DateTime(this.year, this.month, this.day);
   }
 
   DateTime get beginningOfDay {
@@ -175,7 +185,23 @@ extension DateTimeExtensions on DateTime {
     return DateTime(this.year, this.month, this.day, 23, 59, 59, 999, 999);
   }
 
+  DateTime getDatePart({
+    bool year = true,
+    bool month = true,
+    bool day = true,
+  }) {
+    return DateTime(year ? this.year : 2000, month ? this.month : 1, day ? this.day : 1);
+  }
+
+  String get shortDateFormat => _shortDateFormat.format(this);
+  String get mediumDateFormat => _mediumDateFormat.format(this);
   String get longDateFormat => _longDateFormat.format(this);
+  String get longDateFormatWithTime => _longDateFormatWithTime.format(this);
+
+  String get mediumMonthFormat => _mediumMonthFormat.format(this);
+  String get longMonthFormat => _longMonthFormat.format(this);
+
+  String get timeFormat => _timeFormat.format(this);
 }
 
 extension WidgetExtensions on Widget {
@@ -207,5 +233,13 @@ extension JsonMapExtensions on Map<String, dynamic> {
   DateTime getDateTime(String key) {
     if (this[key] == null) return DateTime(2000);
     return DateTime.parse(this[key]);
+  }
+}
+
+extension ColorNExtensions on Color? {
+  Color? contrastingTextColor({Color light: Colors.white, Color dark: Colors.black}) {
+    if (this == null) return null;
+    var brigtness = ThemeData.estimateBrightnessForColor(this!);
+    return brigtness == Brightness.light ? dark : light;
   }
 }

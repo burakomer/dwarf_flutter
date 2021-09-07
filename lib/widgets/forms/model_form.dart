@@ -1,5 +1,6 @@
 import 'package:dwarf_flutter/utils/helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../data/models/base_model.dart';
 import '../../../utils/extensions.dart';
@@ -23,11 +24,15 @@ class ModelForm<M extends BaseModel, MC extends ModelCubit<M>> extends StatefulW
   }) : super(key: key);
 
   @override
-  ModelFormState createState() => ModelFormState();
+  ModelFormState createState() => ModelFormState(fields);
 }
 
 class ModelFormState extends State<ModelForm> {
   final _formKey = GlobalKey<FormState>();
+
+  final List<TextEditingController> _controllers;
+
+  ModelFormState(List<Widget> fields) : _controllers = fields.map((e) => TextEditingController()).toList();
 
   @override
   Widget build(BuildContext context) {
@@ -36,10 +41,19 @@ class ModelFormState extends State<ModelForm> {
         key: _formKey,
         child: Column(
           children: widget.fields
-              .map<Widget>((e) => Padding(
-                    padding: EdgeInsets.symmetric(vertical: 4.0),
-                    child: e,
-                  ))
+              .asMap()
+              .entries
+              .map(
+                (field) => ListenableProvider.value(
+                  value: _controllers[field.key],
+                  builder: (context, child) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 8.0),
+                      child: field.value,
+                    );
+                  },
+                ),
+              )
               .toList()
               .putInBetween(Divider(height: 0)),
         ),
