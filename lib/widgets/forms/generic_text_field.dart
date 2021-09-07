@@ -6,6 +6,9 @@ class GenericTextField extends StatelessWidget {
   final void Function(String) onSaved;
   final bool required;
   final TextInputType? keyboardType;
+  final Widget? trailing;
+  final bool readOnly;
+  final void Function()? onTap;
 
   final _controller = TextEditingController();
 
@@ -16,6 +19,9 @@ class GenericTextField extends StatelessWidget {
     required this.onSaved,
     this.required = false,
     this.keyboardType,
+    this.trailing,
+    this.readOnly = false,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -25,11 +31,15 @@ class GenericTextField extends StatelessWidget {
       controller: _controller,
       decoration: InputDecoration(
         labelText: labelText,
+        suffixIcon: trailing,
+        suffixIconConstraints: BoxConstraints(maxHeight: 48.0, maxWidth: 48.0),
       ),
+      readOnly: readOnly,
       validator: _validateField,
       onSaved: (value) {
         onSaved(value ?? "");
       },
+      onTap: onTap,
     );
   }
 

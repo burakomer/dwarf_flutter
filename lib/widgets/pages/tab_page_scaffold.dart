@@ -6,19 +6,23 @@ import 'tab_scaffold.dart';
 class TabPageScaffold extends StatefulWidget {
   final List<TabScaffold> Function(BuildContext) tabBuilder;
   final List<BottomNavigationBarItem> tabButtons;
+  final int initialTab;
 
   TabPageScaffold({
     Key? key,
     required this.tabBuilder,
     required this.tabButtons,
+    this.initialTab = 0,
   }) : super(key: key);
 
   @override
-  _TabPageScaffoldState createState() => _TabPageScaffoldState();
+  _TabPageScaffoldState createState() => _TabPageScaffoldState(initialTab);
 }
 
 class _TabPageScaffoldState extends State<TabPageScaffold> {
-  int _tabIndex = 0;
+  late int _tabIndex;
+
+  _TabPageScaffoldState(this._tabIndex);
 
   @override
   Widget build(BuildContext context) {

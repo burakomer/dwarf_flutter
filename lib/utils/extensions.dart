@@ -102,8 +102,10 @@ extension StringExtensions on String {
     }
     if (code.length == 8 && !keepAlpha) {
       code = code.substring(2);
+      return Color(int.parse("0xFF$code"));
+    } else {
+      return Color(int.parse("0x$code"));
     }
-    return Color(int.parse("0xFF$code"));
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:dwarf_flutter/utils/helpers.dart';
 import 'package:flutter/material.dart';
 
 import '../../../data/models/base_model.dart';
@@ -48,33 +49,7 @@ class ModelFormState extends State<ModelForm> {
 
   Future<void> submit({bool deleting = false}) async {
     if (deleting) {
-      final response = await showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => AlertDialog(
-          title: Text("Deleting"),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Item will be deleted."),
-              const SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(),
-                  Row(
-                    children: [
-                      ElevatedButton(onPressed: () => Navigator.of(context).pop(false), child: Text("Cancel")),
-                      TextButton(onPressed: () => Navigator.of(context).pop(true), child: Text("Okay")),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      );
+      final response = await showBooleanDialog(context: context, title: "Deleting", message: "Item will be deleted.");
       if (response == null || !response) return;
     }
 
