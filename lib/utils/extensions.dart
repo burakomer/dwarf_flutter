@@ -164,6 +164,7 @@ extension BoolExtensions on bool {
 extension DateTimeExtensions on DateTime {
   static final _shortDateFormat = DateFormat('yMd');
   static final _mediumDateFormat = DateFormat('d MMM yyyy');
+  static final _mediumDateFormatWithTime = DateFormat('d MMM yyyy HH:mm');
   static final _longDateFormat = DateFormat('d MMMM yyyy');
   static final _longDateFormatWithTime = DateFormat('d MMM yyyy HH:mm');
 
@@ -178,17 +179,15 @@ extension DateTimeExtensions on DateTime {
     bool year = true,
     bool month = true,
     bool day = true,
+    bool hour = false,
+    bool minute = false,
   }) {
-    return (!year || (this.year == other.year)) && (!month || (this.month == other.month)) && (!day || (this.day == other.day));
+    return (!year || (this.year == other.year)) && (!month || (this.month == other.month)) && (!day || (this.day == other.day)) && (!hour || (this.hour == other.hour)) && (!minute || (this.minute == other.minute));
   }
 
-  DateTime get beginningOfDay {
-    return DateTime(this.year, this.month, this.day, 0, 0, 0, 0, 1);
-  }
-
-  DateTime get endOfDay {
-    return DateTime(this.year, this.month, this.day, 23, 59, 59, 999, 999);
-  }
+  TimeOfDay get timeOfDay => TimeOfDay.fromDateTime(this);
+  DateTime get beginningOfDay => DateTime(this.year, this.month, this.day, 0, 0, 0, 0, 1);
+  DateTime get endOfDay => DateTime(this.year, this.month, this.day, 23, 59, 59, 999, 999);
 
   DateTime getDatePart({
     bool year = true,
@@ -198,8 +197,11 @@ extension DateTimeExtensions on DateTime {
     return DateTime(year ? this.year : 2000, month ? this.month : 1, day ? this.day : 1);
   }
 
+  DateTime mergeWithTime(TimeOfDay time) => DateTime(this.year, this.month, this.day, time.hour, time.minute);
+
   String get shortDateFormat => _shortDateFormat.format(this);
   String get mediumDateFormat => _mediumDateFormat.format(this);
+  String get mediumDateFormatWithTime => _mediumDateFormatWithTime.format(this);
   String get longDateFormat => _longDateFormat.format(this);
   String get longDateFormatWithTime => _longDateFormatWithTime.format(this);
 

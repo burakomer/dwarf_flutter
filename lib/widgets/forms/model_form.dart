@@ -47,7 +47,7 @@ class ModelFormState extends State<ModelForm> {
                 (field) => ListenableProvider.value(
                   value: _controllers[field.key],
                   builder: (context, child) {
-                    return Padding(
+                    return Container(
                       padding: EdgeInsets.symmetric(vertical: 8.0),
                       child: field.value,
                     );

@@ -23,7 +23,9 @@ class ModelSelectionField<M> extends StatelessWidget {
     this.onClear,
     this.iconMapper,
     this.required = false,
-  }) : super(key: key);
+  }) : super(key: key) {
+    controller.text = initialValue;
+  }
 
   @override
   Widget build(BuildContext context) {

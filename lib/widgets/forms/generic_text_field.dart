@@ -5,8 +5,11 @@ import 'package:provider/provider.dart';
 class GenericTextField extends StatelessWidget {
   final String labelText;
   final String initialValue;
-  final void Function(String) onSaved;
+  final void Function(String)? onSaved;
+  final void Function(String)? onChanged;
   final TextEditingController? controller;
+  final FocusNode? focusNode;
+  final void Function(String?)? validator;
   final bool required;
   final TextInputType? keyboardType;
   final bool readOnly;
@@ -23,8 +26,11 @@ class GenericTextField extends StatelessWidget {
     Key? key,
     required this.labelText,
     required this.initialValue,
-    required this.onSaved,
+    this.onSaved,
+    this.onChanged,
     this.controller,
+    this.focusNode,
+    this.validator,
     this.required = false,
     this.keyboardType,
     this.readOnly = false,
@@ -40,13 +46,13 @@ class GenericTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (controller != null) controller!.text = initialValue;
     return Row(
       children: [
         ...leadingOutside.toList(),
         Expanded(
           child: TextFormField(
             controller: controller,
+            focusNode: focusNode,
             initialValue: controller != null ? null : initialValue,
             decoration: InputDecoration(
               counterText: "",
@@ -60,8 +66,9 @@ class GenericTextField extends StatelessWidget {
             readOnly: readOnly,
             validator: _validateField,
             onSaved: (value) {
-              onSaved(value ?? "");
+              if (onSaved != null) onSaved!(value ?? "");
             },
+            onChanged: onChanged,
             onTap: onTap,
             maxLength: maxLength,
           ),
@@ -104,6 +111,8 @@ class GenericTextField extends StatelessWidget {
         }
       }
     }
+
+    if (validator != null) validator!(value);
 
     return null;
   }
