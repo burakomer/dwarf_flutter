@@ -18,23 +18,26 @@ class FormActionRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        showDelete
-            ? TextButton.icon(
-                style: TextButton.styleFrom(primary: Colors.red),
-                icon: Icon(deleteIcon),
-                label: Text("Delete"),
-                onPressed: onDelete,
-              )
-            : SizedBox(),
-        ElevatedButton.icon(
-          icon: Icon(saveIcon),
-          label: Text("Save"),
-          onPressed: onSave,
-        ),
-      ],
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          showDelete
+              ? TextButton.icon(
+                  style: TextButton.styleFrom(primary: Colors.red),
+                  icon: Icon(deleteIcon),
+                  label: Text("Delete"),
+                  onPressed: onDelete,
+                )
+              : SizedBox(),
+          ElevatedButton.icon(
+            icon: Icon(saveIcon),
+            label: Text("Save"),
+            onPressed: onSave,
+          ),
+        ],
+      ),
     );
   }
 }

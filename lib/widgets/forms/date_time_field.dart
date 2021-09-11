@@ -40,7 +40,7 @@ class DateTimeField extends StatelessWidget {
       onSaved: (_) {},
       onTap: () => _onTap(context),
       // trailing: Icon(Icons.date_range_rounded),
-      trailing: Icon(Icons.chevron_right_rounded),
+      trailing: Icon(AppTheme.of(context).icons.chevronRight),
       trailingOutside: !initialDate.isSameDate(dateTimeNow, hour: true, minute: true)
           ? IconButton(
               icon: Icon(AppTheme.of(context).icons.calendarToday),

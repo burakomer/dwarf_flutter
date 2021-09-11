@@ -1,6 +1,6 @@
-import 'package:dwarf_flutter/utils/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+
+import '../../utils/extensions.dart';
 
 class GenericTextField extends StatelessWidget {
   final String labelText;
@@ -60,7 +60,7 @@ class GenericTextField extends StatelessWidget {
               prefixText: prefixText,
               suffixText: suffixText,
               prefixIcon: leading,
-              suffixIcon: trailing,
+              suffixIcon: trailing != null ? Container(margin: const EdgeInsets.all(12.0), child: trailing) : null,
               suffixIconConstraints: BoxConstraints(maxHeight: 48.0, maxWidth: 48.0),
             ),
             readOnly: readOnly,

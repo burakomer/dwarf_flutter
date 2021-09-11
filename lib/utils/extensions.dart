@@ -71,10 +71,10 @@ extension WidgetListExtensions on List<Widget> {
     return this.map((w) => DataColumn(label: w)).toList();
   }
 
-  List<Widget> putInBetween(Widget? widget) {
+  List<Widget> putInBetween(Widget? widget, {bool removeLast = true}) {
     if (widget == null || this.length == 0) return this;
     var list = this.map((e) => [e, widget]).expand((pair) => pair).toList();
-    list.removeLast();
+    if (removeLast) list.removeLast();
     return list;
   }
 }

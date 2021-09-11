@@ -29,7 +29,7 @@ class GenericBadge extends StatelessWidget {
     this.color,
     this.backgroundColor,
     this.textStyle,
-    this.padding = const EdgeInsets.symmetric(vertical: 4.0, horizontal: 5.0),
+    this.padding = const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
     this.elevation,
   }) : super(key: key);
 
@@ -39,7 +39,7 @@ class GenericBadge extends StatelessWidget {
 
     final outlined = this.outlined ?? themeData?.outlined ?? false;
     final elevation = this.elevation ?? themeData?.elevation ?? 1.0;
-    final backgroundColor = this.backgroundColor ?? Theme.of(context).scaffoldBackgroundColor;
+    final backgroundColor = this.backgroundColor ?? Colors.transparent; //Theme.of(context).scaffoldBackgroundColor;
 
     return Card(
       shape: outlined

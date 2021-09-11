@@ -1,8 +1,7 @@
-import 'package:dwarf_flutter/utils/extensions.dart';
-import 'package:dwarf_flutter/utils/helpers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
+import '../../utils/extensions.dart';
+import '../../utils/helpers.dart';
 import 'generic_text_field.dart';
 
 class FormColorPicker extends StatelessWidget {
@@ -39,7 +38,6 @@ class FormColorPicker extends StatelessWidget {
         }
       },
       trailing: Card(
-        margin: EdgeInsets.only(right: 0.0),
         color: initialColor,
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(8.0)),

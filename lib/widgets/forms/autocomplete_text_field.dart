@@ -1,5 +1,7 @@
-import 'package:dwarf_flutter/widgets/forms/generic_text_field.dart';
 import 'package:flutter/material.dart';
+
+import '../../theme/app_theme.dart';
+import 'generic_text_field.dart';
 
 class AutocompleteTextField<T extends Object> extends StatelessWidget {
   final String labelText;
@@ -46,7 +48,12 @@ class AutocompleteTextField<T extends Object> extends StatelessWidget {
         return Align(
           alignment: Alignment.topLeft,
           child: Card(
-            elevation: 8.0,
+            elevation: 20.0,
+            margin: const EdgeInsets.only(top: 12.0),
+            shape: RoundedRectangleBorder(
+              side: BorderSide(width: 2, color: AppTheme.of(context).primaryColor),
+              borderRadius: AppTheme.of(context).borderRadius,
+            ),
             child: Container(
               constraints: BoxConstraints(
                 maxWidth: MediaQuery.of(context).size.width - 64.0,

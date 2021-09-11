@@ -1,5 +1,7 @@
-import 'package:dwarf_flutter/widgets/forms/generic_text_field.dart';
 import 'package:flutter/material.dart';
+
+import '../../theme/app_theme.dart';
+import 'generic_text_field.dart';
 
 class ModelSelectionField<M> extends StatelessWidget {
   final TextEditingController controller;
@@ -53,10 +55,10 @@ class ModelSelectionField<M> extends StatelessWidget {
                   icon: iconMapper!.call(initialId),
                   onPressed: null,
                 ),
-      trailing: Icon(Icons.chevron_right),
+      trailing: Icon(AppTheme.of(context).icons.chevronRight),
       trailingOutside: initialValue.isNotEmpty && onClear != null
           ? IconButton(
-              icon: Icon(Icons.clear_rounded),
+              icon: Icon(AppTheme.of(context).icons.clear),
               onPressed: onClear,
             )
           : null,

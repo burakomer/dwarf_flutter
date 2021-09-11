@@ -106,7 +106,7 @@ Future<Color?> showColorPickerDialog({
 }) async {
   final result = await showDialog(
     context: context,
-    barrierDismissible: false,
+    // barrierDismissible: false,
     builder: (context) {
       Color? selectedColor = initialColor;
       return StatefulBuilder(

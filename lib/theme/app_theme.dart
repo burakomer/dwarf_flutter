@@ -9,7 +9,7 @@ class AppTheme {
   final AppIcons icons;
   final MaterialColor primaryColor;
 
-  final borderRadius = BorderRadius.circular(8.0);
+  final borderRadius = BorderRadius.circular(16.0);
 
   final bool hasFAB;
   final GenericBadgeThemeData? genericBadgeTheme;
@@ -20,7 +20,7 @@ class AppTheme {
 
   AppTheme({
     required this.primaryColor,
-    required this.icons,
+    this.icons = const MaterialAppIcons(),
     this.hasFAB = true,
     this.genericBadgeTheme,
   });
@@ -61,10 +61,10 @@ class AppTheme {
         //elevation: 10.0,
       ),
       inputDecorationTheme: InputDecorationTheme(
-        // border: OutlineInputBorder(
-        //   borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-        // ),
-        border: InputBorder.none,
+        border: OutlineInputBorder(
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+        ),
+        // border: InputBorder.none,
         //contentPadding: const EdgeInsets.only(left: 8.0),
         isDense: true,
       ),

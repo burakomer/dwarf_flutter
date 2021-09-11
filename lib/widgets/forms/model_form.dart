@@ -1,11 +1,10 @@
-import 'package:dwarf_flutter/utils/helpers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/base_model.dart';
 import '../../../utils/extensions.dart';
 import '../../domain/cubit/model_cubit.dart';
-import '../components/form_card.dart';
+import '../../utils/helpers.dart';
 
 class ModelForm<M extends BaseModel, MC extends ModelCubit<M>> extends StatefulWidget {
   final MC bloc;
@@ -36,27 +35,26 @@ class ModelFormState extends State<ModelForm> {
 
   @override
   Widget build(BuildContext context) {
-    return FormCard(
-      child: Form(
-        key: _formKey,
-        child: Column(
-          children: widget.fields
-              .asMap()
-              .entries
-              .map(
-                (field) => ListenableProvider.value(
-                  value: _controllers[field.key],
-                  builder: (context, child) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(vertical: 8.0),
-                      child: field.value,
-                    );
-                  },
-                ),
-              )
-              .toList()
-              .putInBetween(Divider(height: 0)),
-        ),
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: widget.fields
+            .asMap()
+            .entries
+            .map(
+              (field) => ListenableProvider.value(
+                value: _controllers[field.key],
+                builder: (context, child) {
+                  return Container(
+                    // padding: EdgeInsets.symmetric(vertical: 12.0),
+                    child: field.value,
+                  );
+                },
+              ),
+            )
+            .toList()
+            .putInBetween(SizedBox(height: 16)),
+            // .putInBetween(Divider(height: 0), removeLast: false),
       ),
     );
   }
