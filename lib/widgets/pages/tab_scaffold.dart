@@ -4,7 +4,7 @@ class TabScaffold {
   final String title;
   final Widget body;
   final List<Widget>? actions;
-  final Widget? floatingActionButton;
+  final FloatingActionButton? floatingActionButton;
 
   TabScaffold({
     required this.title,

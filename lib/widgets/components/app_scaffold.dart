@@ -1,6 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+
+import '../../theme/app_theme.dart';
 
 class AppScaffold extends StatelessWidget {
   final String title;
@@ -8,7 +8,7 @@ class AppScaffold extends StatelessWidget {
   final Widget? bottomBar;
   final List<Widget>? actions;
   final List<Widget>? bottomActions;
-  final Widget? floatingActionButton;
+  final FloatingActionButton? floatingActionButton;
 
   final bool hasScaffold;
 
@@ -36,18 +36,29 @@ class AppScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final appBar = AppBar(
-      title: Text(
-        title,
-        style: Theme.of(context).appBarTheme.titleTextStyle,
-      ),
-      actions: actions,
-      automaticallyImplyLeading: false,
-      leading: _getLeading(context),
-    );
+    final hasFAB = AppTheme.of(context).hasFAB;
 
     return Scaffold(
-      appBar: appBar,
+      appBar: AppBar(
+        title: Text(
+          title,
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
+        actions: [
+          ...actions != null ? actions! : [],
+          ...!hasFAB && floatingActionButton != null
+              ? [
+                  floatingActionButton!,
+                  // TextButton(
+                  //   onPressed: floatingActionButton!.onPressed,
+                  //   child: floatingActionButton!.child ?? SizedBox(),
+                  // ),
+                ]
+              : [],
+        ],
+        automaticallyImplyLeading: false,
+        leading: _getLeading(context),
+      ),
       body: body,
       bottomNavigationBar: bottomBar ??
           (bottomActions != null
@@ -63,7 +74,7 @@ class AppScaffold extends StatelessWidget {
                   ),
                 )
               : null),
-      floatingActionButton: floatingActionButton,
+      floatingActionButton: hasFAB ? floatingActionButton : null,
     );
   }
 

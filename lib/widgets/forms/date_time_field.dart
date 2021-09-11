@@ -1,6 +1,7 @@
-import 'package:dwarf_flutter/utils/extensions.dart';
 import 'package:flutter/material.dart';
 
+import '../../theme/app_theme.dart';
+import '../../utils/extensions.dart';
 import 'generic_text_field.dart';
 
 class DateTimeField extends StatelessWidget {
@@ -42,7 +43,7 @@ class DateTimeField extends StatelessWidget {
       trailing: Icon(Icons.chevron_right_rounded),
       trailingOutside: !initialDate.isSameDate(dateTimeNow, hour: true, minute: true)
           ? IconButton(
-              icon: Icon(Icons.today_rounded),
+              icon: Icon(AppTheme.of(context).icons.calendarToday),
               onPressed: () => onSelectDateTime(dateTimeNow),
             )
           : null,

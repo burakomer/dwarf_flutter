@@ -248,5 +248,6 @@ extension ColorNExtensions on Color? {
     if (this == null) return null;
     var brigtness = ThemeData.estimateBrightnessForColor(this!);
     return brigtness == Brightness.light ? dark : light;
+    // return color.computeLuminance() > 0.6 ? Colors.black : Colors.white;
   }
 }
