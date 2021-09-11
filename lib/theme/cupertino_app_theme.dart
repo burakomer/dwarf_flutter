@@ -17,16 +17,19 @@ class CupertinoAppTheme extends AppTheme {
 
   @override
   ThemeData getThemeData({
-    required Color modeColor,
     required Brightness brightness,
+    Color? brightnessModeColor,
   }) {
-    final barColor = modeColor;
+    final modeColor = brightnessModeColor ?? AppTheme.getDefaultModeColor(brightness);
+    final modeColorAccent = AppTheme.getModeAccentColor(brightness);
+    // final barColor = modeColor;
+    final barColor = AppTheme.getDefaultModeColor(brightness);
     final barIconColor = primaryColor;
     final shadowColor = Colors.black26;
 
     // final borderSide = BorderSide(width: 1, color: modeColor.contrastingTextColor()!);
     final shapeBorder = RoundedRectangleBorder(borderRadius: borderRadius);
-    final superThemeData = super.getThemeData(modeColor: modeColor, brightness: brightness);
+    final superThemeData = super.getThemeData(brightnessModeColor: modeColor, brightness: brightness);
     return superThemeData.copyWith(
       appBarTheme: AppBarTheme(
         color: barColor,
@@ -35,19 +38,22 @@ class CupertinoAppTheme extends AppTheme {
           fontWeight: FontWeight.bold,
           fontSize: 22.0,
         ),
-        elevation: 0.0,
-        shadowColor: shadowColor,
+        elevation: 0.7,
+        // shadowColor: shadowColor,
         centerTitle: false,
         actionsIconTheme: IconThemeData(color: barIconColor),
         iconTheme: IconThemeData(color: barIconColor),
+        shape: Border(
+          bottom: BorderSide(width: 0.4, color: modeColor.contrastingTextColor()!.withAlpha(40)),
+        ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: modeColor,
+        backgroundColor: barColor,
         selectedItemColor: primaryColor,
         elevation: 10.0,
       ),
       cardTheme: CardTheme(
-        color: modeColor,
+        color: barColor,
         elevation: 10.0,
         // elevation: 0.0,
         shape: shapeBorder,
@@ -67,6 +73,19 @@ class CupertinoAppTheme extends AppTheme {
       bottomAppBarTheme: BottomAppBarTheme(
         color: modeColor,
         elevation: 0.0,
+      ),
+      inputDecorationTheme: superThemeData.inputDecorationTheme.copyWith(
+        border: OutlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+          // borderRadius: BorderRadius.circular(0),
+        ),
+        filled: true,
+        fillColor: modeColorAccent,
+        floatingLabelBehavior: FloatingLabelBehavior.never,
+      ),
+      dialogTheme: superThemeData.dialogTheme.copyWith(
+        backgroundColor: barColor,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(

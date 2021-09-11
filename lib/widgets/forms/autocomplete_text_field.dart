@@ -4,6 +4,8 @@ import '../../theme/app_theme.dart';
 import 'generic_text_field.dart';
 
 class AutocompleteTextField<T extends Object> extends StatelessWidget {
+  final TextEditingController controller;
+  final FocusNode focusNode;
   final String labelText;
   final String initialValue;
   final void Function(String)? onSaved;
@@ -16,6 +18,8 @@ class AutocompleteTextField<T extends Object> extends StatelessWidget {
 
   AutocompleteTextField({
     Key? key,
+    required this.controller,
+    required this.focusNode,
     required this.labelText,
     required this.initialValue,
     required this.onSaved,
@@ -30,11 +34,13 @@ class AutocompleteTextField<T extends Object> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RawAutocomplete<T>(
+      textEditingController: controller,
+      focusNode: focusNode,
       onSelected: onSelected,
       displayStringForOption: textSelector,
       optionsBuilder: optionsBuilder,
       fieldViewBuilder: (context, controller, focusNode, onFieldSubmitted) {
-        controller.text = initialValue;
+        // controller.text = initialValue;
         return GenericTextField(
           controller: controller,
           focusNode: focusNode,

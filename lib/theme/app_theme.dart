@@ -6,6 +6,17 @@ import '../widgets/components/generic_badge.dart';
 import 'app_icons.dart';
 
 class AppTheme {
+  static const darkColorValue = 17;
+  static const darkColor = Color.fromARGB(255, darkColorValue, darkColorValue, darkColorValue);
+  static const lightColor = Colors.white;
+  static Color get lightColorAccent => Colors.grey.shade200;
+  static Color getDefaultModeColor(Brightness brightness) {
+    return brightness == Brightness.light ? lightColor : darkColor;
+  }
+  static Color getModeAccentColor(Brightness brightness) {
+    return brightness == Brightness.light ? lightColorAccent : darkColor;
+  }
+
   final AppIcons icons;
   final MaterialColor primaryColor;
 
@@ -26,12 +37,13 @@ class AppTheme {
   });
 
   ThemeData getThemeData({
-    required Color modeColor,
     required Brightness brightness,
+    Color? brightnessModeColor,
   }) {
     final barColor = primaryColor;
     final barIconColor = Colors.white;
     final shapeBorder = RoundedRectangleBorder(borderRadius: borderRadius);
+    final modeColor = brightnessModeColor ?? getDefaultModeColor(brightness);
 
     return ThemeData(
       pageTransitionsTheme: PageTransitionsTheme(builders: {
