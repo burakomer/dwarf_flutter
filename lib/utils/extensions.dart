@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -162,17 +164,17 @@ extension BoolExtensions on bool {
 }
 
 extension DateTimeExtensions on DateTime {
-  static final _shortDateFormat = DateFormat('yMd');
-  static final _mediumDateFormat = DateFormat('d MMM yyyy');
-  static final _mediumDateFormatWithTime = DateFormat('d MMM yyyy HH:mm');
-  static final _longDateFormat = DateFormat('d MMMM yyyy');
-  static final _longDateFormatWithTime = DateFormat('d MMM yyyy HH:mm');
+  static final _shortDateFormat = DateFormat('yMd', Platform.localeName);
+  static final _mediumDateFormat = DateFormat('d MMM yyyy', Platform.localeName);
+  static final _mediumDateFormatWithTime = DateFormat('d MMM yyyy HH:mm', Platform.localeName);
+  static final _longDateFormat = DateFormat('d MMMM yyyy', Platform.localeName);
+  static final _longDateFormatWithTime = DateFormat('d MMM yyyy HH:mm', Platform.localeName);
 
-  static final _mediumMonthFormat = DateFormat('MMM yyyy');
-  static final _longMonthFormat = DateFormat('MMMM yyyy');
+  static final _mediumMonthFormat = DateFormat('MMM yyyy', Platform.localeName);
+  static final _longMonthFormat = DateFormat('MMMM yyyy', Platform.localeName);
 
-  static final _shortDateFormatWithTime = DateFormat('dd MMMM HH:mm');
-  static final _timeFormat = DateFormat('HH:mm');
+  static final _shortDateFormatWithTime = DateFormat('dd MMMM HH:mm', Platform.localeName);
+  static final _timeFormat = DateFormat('HH:mm', Platform.localeName);
 
   bool isSameDate(
     DateTime other, {

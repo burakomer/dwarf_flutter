@@ -1,3 +1,4 @@
+import 'package:dwarf_flutter/config/localization.dart';
 import 'package:flutter/material.dart';
 
 class FormActionRow extends StatelessWidget {
@@ -27,13 +28,13 @@ class FormActionRow extends StatelessWidget {
               ? TextButton.icon(
                   style: TextButton.styleFrom(primary: Colors.red),
                   icon: Icon(deleteIcon),
-                  label: Text("Delete"),
+                  label: Text(getStr(context, "delete")),
                   onPressed: onDelete,
                 )
               : SizedBox(),
           TextButton.icon(
             icon: Icon(saveIcon),
-            label: Text("Save"),
+            label: Text(getStr(context, "save")),
             onPressed: onSave,
           ),
         ],

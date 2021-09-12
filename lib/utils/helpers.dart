@@ -1,3 +1,4 @@
+import 'package:dwarf_flutter/config/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
 
@@ -48,12 +49,15 @@ Future<bool?> showBooleanDialog({
   required BuildContext context,
   required String title,
   required String message,
-  String okayText = "Okay",
-  String cancelText = "Cancel",
+  String? okayText,
+  String? cancelText,
   bool elevatedOkayButton = false,
   bool elevatedCancelButton = true,
   bool tristate = false,
 }) async {
+  final okayTextStr = okayText ?? getStr(context, "okay");
+  final cancelTextStr = cancelText ?? getStr(context, "cancel");
+
   final result = await showDialog<bool>(
     context: context,
     barrierDismissible: tristate,
@@ -74,20 +78,20 @@ Future<bool?> showBooleanDialog({
                   elevatedCancelButton
                       ? ElevatedButton(
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: Text(cancelText),
+                          child: Text(cancelTextStr),
                         )
                       : TextButton(
                           onPressed: () => Navigator.of(context).pop(false),
-                          child: Text(cancelText),
+                          child: Text(cancelTextStr),
                         ),
                   elevatedOkayButton
                       ? ElevatedButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          child: Text(okayText),
+                          child: Text(okayTextStr),
                         )
                       : TextButton(
                           onPressed: () => Navigator.of(context).pop(true),
-                          child: Text(okayText),
+                          child: Text(okayTextStr),
                         ),
                 ],
               ),
@@ -112,7 +116,7 @@ Future<Color?> showColorPickerDialog({
       return StatefulBuilder(
         builder: (context, setBuilderState) {
           return AlertDialog(
-            title: Text("Pick a color"),
+            title: Text(getStr(context, "pick_a_color")),
             contentPadding: const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 16.0),
             content: MaterialColorPicker(
               shrinkWrap: true,
@@ -125,7 +129,7 @@ Future<Color?> showColorPickerDialog({
             ),
             actions: [
               TextButton(
-                child: Text("Cancel"),
+                child: Text(getStr(context, "cancel")),
                 onPressed: () => Navigator.of(context).pop(null),
               ),
               // TextButton(

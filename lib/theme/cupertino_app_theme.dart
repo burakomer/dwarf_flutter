@@ -45,7 +45,7 @@ class CupertinoAppTheme extends AppTheme {
     final shapeBorder = RoundedRectangleBorder(borderRadius: borderRadius);
     final superThemeData = super.getThemeData(brightness: brightness);
     return superThemeData.copyWith(
-      dividerTheme: DividerThemeData(thickness: 0.4, color: modeColor.contrastingTextColor()!),
+      dividerTheme: DividerThemeData(thickness: 0.3, color: modeColor.contrastingTextColor()!),
       appBarTheme: AppBarTheme(
         color: barColor,
         titleTextStyle: TextStyle(
@@ -59,12 +59,11 @@ class CupertinoAppTheme extends AppTheme {
         actionsIconTheme: IconThemeData(color: barIconColor),
         iconTheme: IconThemeData(color: barIconColor),
         shape: Border(
-          bottom: BorderSide(width: 0.4, color: modeColor.contrastingTextColor()!.withAlpha(50)),
+          bottom: BorderSide(width: 0.3, color: modeColor.contrastingTextColor()!.withAlpha(50)),
         ),
       ),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      bottomNavigationBarTheme: superThemeData.bottomNavigationBarTheme.copyWith(
         backgroundColor: barColor,
-        selectedItemColor: primaryColor,
         elevation: 0.0,
       ),
       cardTheme: CardTheme(

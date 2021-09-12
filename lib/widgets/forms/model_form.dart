@@ -1,3 +1,4 @@
+import 'package:dwarf_flutter/config/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -68,7 +69,11 @@ class ModelFormState extends State<ModelForm> {
 
   Future<void> submit({bool deleting = false}) async {
     if (deleting) {
-      final response = await showBooleanDialog(context: context, title: "Deleting", message: "Item will be deleted.");
+      final response = await showBooleanDialog(
+        context: context,
+        title: getStr(context, "deleting"),
+        message: getStr(context, "item_will_be_deleted"),
+      );
       if (response == null || !response) return;
     }
 

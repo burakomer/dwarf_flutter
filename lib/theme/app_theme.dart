@@ -90,6 +90,9 @@ class AppTheme {
         backgroundColor: modeColor,
         selectedItemColor: primaryColor,
         elevation: 10.0,
+        // showUnselectedLabels: false,
+        // selectedIconTheme: IconThemeData(size: 48.0)
+        // type: BottomNavigationBarType.fixed,
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(

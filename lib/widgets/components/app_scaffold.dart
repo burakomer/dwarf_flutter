@@ -132,7 +132,7 @@ class AppScaffold extends StatelessWidget {
         ? Border(
             bottom: BorderSide(
               width: Theme.of(context).dividerTheme.thickness!,
-              color: Theme.of(context).dividerTheme.color!.withAlpha(50),
+              color: Theme.of(context).dividerTheme.color!.withAlpha(60),
             ),
           )
         : null;
@@ -165,7 +165,7 @@ class AppScaffold extends StatelessWidget {
         ? Border(
             top: BorderSide(
               width: Theme.of(context).dividerTheme.thickness!,
-              color: Theme.of(context).dividerTheme.color!.withAlpha(50),
+              color: Theme.of(context).dividerTheme.color!.withAlpha(60),
             ),
           )
         : null;
