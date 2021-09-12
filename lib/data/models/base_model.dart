@@ -1,5 +1,5 @@
-import 'package:dwarf_flutter/utils/extensions.dart';
-import 'package:flutter/material.dart';
+
+import '../../utils/extensions.dart';
 
 abstract class BaseModel {
   final int id;
