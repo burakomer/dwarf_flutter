@@ -12,13 +12,15 @@ class FormColorPicker extends StatelessWidget {
 
   Color? get initialColor => initialValue.colorFromHexCode();
 
-  const FormColorPicker({
+  FormColorPicker({
     Key? key,
     required this.controller,
     required this.labelText,
     required this.initialValue,
     required this.onSelectColor,
-  }) : super(key: key);
+  }) : super(key: key) {
+    controller.text = initialValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,14 +39,13 @@ class FormColorPicker extends StatelessWidget {
           onSelectColor(color);
         }
       },
+      prefixText: "#",
       trailing: Card(
+        elevation: 2.0,
         color: initialColor,
-        child: InkWell(
-          borderRadius: const BorderRadius.all(Radius.circular(8.0)),
-          child: Container(
-            width: 32.0,
-            height: 32.0,
-          ),
+        child: Container(
+          width: 32.0,
+          height: 32.0,
         ),
       ),
     );

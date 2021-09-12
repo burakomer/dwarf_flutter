@@ -14,7 +14,8 @@ class GenericBadgeThemeData {
 }
 
 class GenericBadge extends StatelessWidget {
-  final String text;
+  final String? text;
+  final Widget? child;
   final Color? color;
   final Color? backgroundColor;
   final TextStyle? textStyle;
@@ -24,7 +25,8 @@ class GenericBadge extends StatelessWidget {
 
   const GenericBadge({
     Key? key,
-    required this.text,
+    this.text,
+    this.child,
     this.outlined,
     this.color,
     this.backgroundColor,
@@ -35,6 +37,8 @@ class GenericBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    assert((text != null && child == null) || (text == null && child != null));
+
     final themeData = AppTheme.of(context).genericBadgeTheme;
 
     final outlined = this.outlined ?? themeData?.outlined ?? false;
@@ -53,14 +57,16 @@ class GenericBadge extends StatelessWidget {
       color: outlined ? backgroundColor : color ?? Theme.of(context).cardTheme.color ?? Colors.white,
       child: Container(
         padding: padding,
-        child: Text(
-          text,
-          style: textStyle != null
-              ? textStyle!.copyWith(color: outlined ? color : color.contrastingTextColor())
-              : TextStyle(
-                  color: outlined ? color : color.contrastingTextColor(),
-                ),
-        ),
+        child: child != null
+            ? child
+            : Text(
+                text!,
+                style: textStyle != null
+                    ? textStyle!.copyWith(color: outlined ? color : color.contrastingTextColor())
+                    : TextStyle(
+                        color: outlined ? color : color.contrastingTextColor(),
+                      ),
+              ),
       ),
       // shape: BadgeShape.square,
     );

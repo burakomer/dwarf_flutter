@@ -3,7 +3,7 @@ description: My Flutter library.
 version: 1.0.0
 homepage:
 
-publish_to: 'none'
+publish_to: "none"
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
@@ -20,6 +20,7 @@ dependencies:
   path_provider: ^2.0.3
   provider: ^6.0.0
   sqflite: ^2.0.0+4
+  sliver_header_delegate: ^0.0.1
 
 dev_dependencies:
   flutter_test:

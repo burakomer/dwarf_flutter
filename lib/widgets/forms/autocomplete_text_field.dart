@@ -29,7 +29,9 @@ class AutocompleteTextField<T extends Object> extends StatelessWidget {
     required this.itemBuilder,
     this.required = false,
     this.borderRadius,
-  }) : super(key: key);
+  }) : super(key: key){
+    controller.text = initialValue;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,7 @@ class AutocompleteTextField<T extends Object> extends StatelessWidget {
           initialValue: initialValue,
           required: required,
           onSaved: onSaved,
+          onChanged: onSaved, // ? Is this feasible?
         );
       },
       optionsViewBuilder: (context, onSelected, options) {
@@ -57,7 +60,7 @@ class AutocompleteTextField<T extends Object> extends StatelessWidget {
             elevation: 20.0,
             margin: const EdgeInsets.only(top: 12.0),
             shape: RoundedRectangleBorder(
-              side: BorderSide(width: 2, color: AppTheme.of(context).primaryColor),
+              // side: BorderSide(width: 2, color: AppTheme.of(context).primaryColor),
               borderRadius: AppTheme.of(context).borderRadius,
             ),
             child: Container(

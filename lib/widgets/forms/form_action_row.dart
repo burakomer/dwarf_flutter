@@ -31,7 +31,7 @@ class FormActionRow extends StatelessWidget {
                   onPressed: onDelete,
                 )
               : SizedBox(),
-          ElevatedButton.icon(
+          TextButton.icon(
             icon: Icon(saveIcon),
             label: Text("Save"),
             onPressed: onSave,

@@ -12,6 +12,8 @@ class ModelForm<M extends BaseModel, MC extends ModelCubit<M>> extends StatefulW
   final M item;
   final M Function({required bool deleting}) getCurrentModel;
   final void Function() setSavingState;
+  final double fieldPadding;
+  final bool shrinkWrap;
 
   const ModelForm({
     GlobalKey<ModelFormState>? key,
@@ -20,6 +22,8 @@ class ModelForm<M extends BaseModel, MC extends ModelCubit<M>> extends StatefulW
     required this.item,
     required this.getCurrentModel,
     required this.setSavingState,
+    this.fieldPadding = 16.0,
+    this.shrinkWrap = true,
   }) : super(key: key);
 
   @override
@@ -37,7 +41,10 @@ class ModelFormState extends State<ModelForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Column(
+      child: ListView(
+        padding: EdgeInsets.symmetric(vertical: widget.fieldPadding),
+        shrinkWrap: widget.shrinkWrap,
+        // primary: !widget.shrinkWrap,
         children: widget.fields
             .asMap()
             .entries
@@ -53,8 +60,8 @@ class ModelFormState extends State<ModelForm> {
               ),
             )
             .toList()
-            .putInBetween(SizedBox(height: 16)),
-            // .putInBetween(Divider(height: 0), removeLast: false),
+            .putInBetween(SizedBox(height: widget.fieldPadding)),
+        // .putInBetween(Divider(height: 0), removeLast: false),
       ),
     );
   }

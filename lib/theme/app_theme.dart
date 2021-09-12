@@ -6,28 +6,36 @@ import '../widgets/components/generic_badge.dart';
 import 'app_icons.dart';
 
 class AppTheme {
-  static const darkColorValue = 17;
-  static const darkColor = Color.fromARGB(255, darkColorValue, darkColorValue, darkColorValue);
-  static const lightColor = Colors.white;
-  static Color get lightColorAccent => Colors.grey.shade200;
-  static Color getDefaultModeColor(Brightness brightness) {
-    return brightness == Brightness.light ? lightColor : darkColor;
+  static AppTheme of(BuildContext context) {
+    return context.read<AppTheme>();
   }
-  static Color getModeAccentColor(Brightness brightness) {
-    return brightness == Brightness.light ? lightColorAccent : darkColor;
+
+  static Color getCurrentModeColor(BuildContext context, {bool lightAccent = false, bool darkAccent = false}) {
+    final brightness = Theme.of(context).brightness;
+    if ((brightness == Brightness.light && lightAccent) || (brightness == Brightness.dark && darkAccent)) {
+      return AppTheme.of(context).getModeAccentColor(Theme.of(context).brightness);
+    } else {
+      return AppTheme.of(context).getModeColor(Theme.of(context).brightness);
+    }
   }
+
+  int get darkColorValue => 17;
+  int get lightColorValue => 255;
+  Color get darkColor => Color.fromARGB(255, darkColorValue, darkColorValue, darkColorValue);
+  Color get lightColor => Color.fromARGB(255, lightColorValue, lightColorValue, lightColorValue);
+
+  int get darkColorAccentValue => 31;
+  int get lightColorAccentValue => 200;
+  Color get darkColorAccent => Color.fromARGB(255, darkColorAccentValue, darkColorAccentValue, darkColorAccentValue);
+  Color get lightColorAccent => Color.fromARGB(255, lightColorAccentValue, lightColorAccentValue, lightColorAccentValue);
 
   final AppIcons icons;
   final MaterialColor primaryColor;
 
-  final borderRadius = BorderRadius.circular(16.0);
+  final borderRadius = BorderRadius.circular(8.0);
 
   final bool hasFAB;
   final GenericBadgeThemeData? genericBadgeTheme;
-
-  static AppTheme of(BuildContext context) {
-    return context.read<AppTheme>();
-  }
 
   AppTheme({
     required this.primaryColor,
@@ -36,14 +44,21 @@ class AppTheme {
     this.genericBadgeTheme,
   });
 
+  Color getModeColor(Brightness brightness) {
+    return brightness == Brightness.light ? lightColor : darkColor;
+  }
+
+  Color getModeAccentColor(Brightness brightness) {
+    return brightness == Brightness.light ? lightColorAccent : darkColorAccent;
+  }
+
   ThemeData getThemeData({
     required Brightness brightness,
-    Color? brightnessModeColor,
   }) {
     final barColor = primaryColor;
     final barIconColor = Colors.white;
     final shapeBorder = RoundedRectangleBorder(borderRadius: borderRadius);
-    final modeColor = brightnessModeColor ?? getDefaultModeColor(brightness);
+    final modeColor = getModeColor(brightness);
 
     return ThemeData(
       pageTransitionsTheme: PageTransitionsTheme(builders: {
@@ -55,7 +70,7 @@ class AppTheme {
       scaffoldBackgroundColor: modeColor,
       fontFamily: "Rubik",
       appBarTheme: AppBarTheme(
-        color: barColor,
+        color: brightness == Brightness.light ? primaryColor : darkColorAccent,
         titleTextStyle: TextStyle(
           color: barColor.contrastingTextColor(),
           fontWeight: FontWeight.bold,
@@ -67,21 +82,25 @@ class AppTheme {
         actionsIconTheme: IconThemeData(color: barIconColor),
         iconTheme: IconThemeData(color: barIconColor),
       ),
+      bottomAppBarTheme: BottomAppBarTheme(
+        color: modeColor,
+        elevation: 10.0,
+      ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: modeColor,
         selectedItemColor: primaryColor,
-        //elevation: 10.0,
+        elevation: 10.0,
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
-          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+          borderRadius: borderRadius,
         ),
         // border: InputBorder.none,
         //contentPadding: const EdgeInsets.only(left: 8.0),
         isDense: true,
       ),
       cardTheme: CardTheme(
-        color: modeColor,
+        color: brightness == Brightness.light ? lightColor : darkColorAccent,
         elevation: 4.0,
         shape: shapeBorder,
         margin: EdgeInsets.zero,
@@ -98,10 +117,6 @@ class AppTheme {
       dividerTheme: DividerThemeData(
           //indent: 12.0,
           color: Colors.grey),
-      bottomAppBarTheme: BottomAppBarTheme(
-        color: modeColor,
-        elevation: 1.0,
-      ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: modeColor,
         modalBackgroundColor: modeColor,
@@ -123,6 +138,16 @@ class AppTheme {
         style: ButtonStyle(
           foregroundColor: MaterialStateProperty.all<Color>(primaryColor),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(shapeBorder),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          primary: primaryColor,
+          shape: shapeBorder,
+          side: BorderSide(
+            width: 1.5,
+            color: primaryColor,
+          ),
         ),
       ),
     );

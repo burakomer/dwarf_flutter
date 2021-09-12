@@ -6,6 +6,13 @@ import 'app_icons.dart';
 import 'app_theme.dart';
 
 class CupertinoAppTheme extends AppTheme {
+  @override
+  int get darkColorAccentValue => 24;
+  @override
+  int get lightColorAccentValue => 240;
+  @override
+  int get darkColorValue => 0;
+
   CupertinoAppTheme({
     required MaterialColor primaryColor,
   }) : super(
@@ -16,21 +23,29 @@ class CupertinoAppTheme extends AppTheme {
         );
 
   @override
+  Color getModeColor(Brightness brightness) {
+    return brightness == Brightness.light ? Colors.white : Colors.black;
+  }
+  
+
+  @override
   ThemeData getThemeData({
     required Brightness brightness,
-    Color? brightnessModeColor,
   }) {
-    final modeColor = brightnessModeColor ?? AppTheme.getDefaultModeColor(brightness);
-    final modeColorAccent = AppTheme.getModeAccentColor(brightness);
+    final modeColor = getModeColor(brightness);
+    final modeAccentColor = getModeAccentColor(brightness);
     // final barColor = modeColor;
-    final barColor = AppTheme.getDefaultModeColor(brightness);
+    // final barColor = AppTheme.getDefaultModeColor(brightness);
+    final barColor = brightness == Brightness.light ? modeColor : modeAccentColor;
+    // final barColor = modeAccentColor;
     final barIconColor = primaryColor;
-    final shadowColor = Colors.black26;
+    final shadowColor = Colors.black38;
 
     // final borderSide = BorderSide(width: 1, color: modeColor.contrastingTextColor()!);
     final shapeBorder = RoundedRectangleBorder(borderRadius: borderRadius);
-    final superThemeData = super.getThemeData(brightnessModeColor: modeColor, brightness: brightness);
+    final superThemeData = super.getThemeData(brightness: brightness);
     return superThemeData.copyWith(
+      dividerTheme: DividerThemeData(thickness: 0.4, color: modeColor.contrastingTextColor()!),
       appBarTheme: AppBarTheme(
         color: barColor,
         titleTextStyle: TextStyle(
@@ -38,26 +53,26 @@ class CupertinoAppTheme extends AppTheme {
           fontWeight: FontWeight.bold,
           fontSize: 22.0,
         ),
-        elevation: 0.7,
+        elevation: 0,
         // shadowColor: shadowColor,
         centerTitle: false,
         actionsIconTheme: IconThemeData(color: barIconColor),
         iconTheme: IconThemeData(color: barIconColor),
         shape: Border(
-          bottom: BorderSide(width: 0.4, color: modeColor.contrastingTextColor()!.withAlpha(40)),
+          bottom: BorderSide(width: 0.4, color: modeColor.contrastingTextColor()!.withAlpha(50)),
         ),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: barColor,
         selectedItemColor: primaryColor,
-        elevation: 10.0,
+        elevation: 0.0,
       ),
       cardTheme: CardTheme(
-        color: barColor,
-        elevation: 10.0,
+        color: modeAccentColor,
+        elevation: 8.0,
         // elevation: 0.0,
         shape: shapeBorder,
-        shadowColor: shadowColor,
+        // shadowColor: shadowColor,
         margin: EdgeInsets.zero,
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
@@ -71,17 +86,16 @@ class CupertinoAppTheme extends AppTheme {
         highlightElevation: hasFAB ? null : 0.0,
       ),
       bottomAppBarTheme: BottomAppBarTheme(
-        color: modeColor,
+        color: barColor,
         elevation: 0.0,
       ),
       inputDecorationTheme: superThemeData.inputDecorationTheme.copyWith(
-        border: OutlineInputBorder(
+        border: superThemeData.inputDecorationTheme.border?.copyWith(
           borderSide: BorderSide.none,
-          borderRadius: const BorderRadius.all(Radius.circular(12.0)),
           // borderRadius: BorderRadius.circular(0),
         ),
         filled: true,
-        fillColor: modeColorAccent,
+        fillColor: modeAccentColor,
         floatingLabelBehavior: FloatingLabelBehavior.never,
       ),
       dialogTheme: superThemeData.dialogTheme.copyWith(
