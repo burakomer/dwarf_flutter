@@ -77,7 +77,7 @@ class AppTheme {
           fontSize: 24.0,
         ),
         elevation: 2.0,
-        shadowColor: barColor,
+        // shadowColor: barColor,
         centerTitle: false,
         actionsIconTheme: IconThemeData(color: barIconColor),
         iconTheme: IconThemeData(color: barIconColor),
