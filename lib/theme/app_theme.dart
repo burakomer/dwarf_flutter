@@ -90,7 +90,7 @@ class AppTheme {
         backgroundColor: modeColor,
         selectedItemColor: primaryColor,
         elevation: 10.0,
-        // showUnselectedLabels: false,
+        showUnselectedLabels: false,
         // selectedIconTheme: IconThemeData(size: 48.0)
         // type: BottomNavigationBarType.fixed,
       ),
