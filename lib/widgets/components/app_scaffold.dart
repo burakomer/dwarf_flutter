@@ -1,3 +1,4 @@
+import 'package:dwarf_flutter/widgets/components/refreshable.dart';
 import 'package:flutter/material.dart';
 import 'package:sliver_header_delegate/sliver_header_delegate.dart';
 
@@ -5,11 +6,15 @@ import '../../theme/app_theme.dart';
 
 class AppScaffold extends StatelessWidget {
   final String title;
-  final Widget body;
+  final Widget? body;
   final Widget? bottomBar;
+  final Widget? navigationRail;
   final List<Widget>? actions;
   final List<Widget>? bottomActions;
-  final FloatingActionButton? floatingActionButton;
+  final Widget? floatingActionButton;
+
+  final sliverMode;
+  final Future<void> Function()? sliverOnRefresh;
 
   final bool hasScaffold;
 
@@ -18,104 +23,87 @@ class AppScaffold extends StatelessWidget {
     this.title = "",
     required this.body,
     this.bottomBar,
+    this.navigationRail,
     this.actions,
     this.bottomActions,
     this.floatingActionButton,
   })  : hasScaffold = false,
+        sliverMode = false,
+        sliverOnRefresh = null,
         super(key: key);
 
-  const AppScaffold.tab({
+  const AppScaffold.sliver({
     Key? key,
     this.title = "",
     required this.body,
     this.bottomBar,
+    this.navigationRail,
     this.actions,
     this.bottomActions,
     this.floatingActionButton,
+    Future<void> Function()? onRefresh,
   })  : hasScaffold = true,
+        sliverMode = true,
+        sliverOnRefresh = onRefresh,
         super(key: key);
+
+  bool isPhone(BuildContext context) {
+    Size screenSize = MediaQuery.of(context).size;
+    return screenSize.width < 768;
+  }
+
+  bool shouldUseNavigationRail(BuildContext context) {
+    return !isPhone(context) && navigationRail != null;
+  }
 
   @override
   Widget build(BuildContext context) {
     final hasFAB = AppTheme.of(context).hasFAB;
 
     return Scaffold(
-      appBar: _getAppBar(context, hasFAB),
-      body: body,
+      appBar: sliverMode ? null : _getAppBar(context, hasFAB) as PreferredSizeWidget,
+      body: _getBody(context),
       // body: _getBody(context, hasFAB),
-      bottomNavigationBar: _getBottomNavigationBar(context),
+      bottomNavigationBar: shouldUseNavigationRail(context) ? null : _getBottomNavigationBar(context),
       floatingActionButton: hasFAB ? floatingActionButton : null,
     );
   }
 
-  Widget _getBody(BuildContext context, bool hasFAB) {
-    final border = Theme.of(context).dividerTheme.thickness != null && Theme.of(context).dividerTheme.color != null
-        ? Border(
-            bottom: BorderSide(
-              width: Theme.of(context).dividerTheme.thickness!,
-              color: Theme.of(context).dividerTheme.color!.withAlpha(50),
-            ),
-          )
-        : null;
+  Widget _getBody(BuildContext context) {
+    if (!sliverMode) return body!;
 
-    return NestedScrollView(
-      // physics: RangeMaintainingScrollPhysics(),
-      body: body,
-      headerSliverBuilder: (context, innerBoxIsScrolled) => [
-        // SliverPersistentHeader(
-        //   pinned: true,
-        //   delegate: FlexibleHeaderDelegate(
-        //     expandedHeight: kToolbarHeight * 1.5,
-        //     collapsedHeight: kToolbarHeight / 1.5,
-        //     leading: _getLeading(context),
-        //     // backgroundColor: Colors.white,
-        //     // expandedElevation: 0.0,
-        //     collapsedElevation: 0.0,
-        //     statusBarHeight: MediaQuery.of(context).padding.top,
-        //     children: [
-        //       FlexibleTextItem(
-        //         text: title,
-        //         expandedStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 28.0),
-        //         collapsedStyle: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(fontSize: 14.0, fontWeight: FontWeight.normal),
-        //         expandedAlignment: Alignment.bottomLeft,
-        //         collapsedAlignment: Alignment.center,
-        //         // collapsedPadding: const EdgeInsets.all(4.0),
-        //         collapsedPadding: EdgeInsets.zero,
-        //         expandedPadding: const EdgeInsets.all(16.0),
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        SliverAppBar(
-          expandedHeight: 100,
-          flexibleSpace: FlexibleSpaceBar(
-            // titlePadding: EdgeInsets.zero,
-            centerTitle: false,
-            title: Text(
-              title,
-              style: Theme.of(context).appBarTheme.titleTextStyle,
-            ),
-          ),
-          shape: border != null ? border : null,
-          actions: [
-            ...actions != null ? actions! : [],
-            ...!hasFAB && floatingActionButton != null
-                ? [
-                    floatingActionButton!,
-                    // TextButton(
-                    //   onPressed: floatingActionButton!.onPressed,
-                    //   child: floatingActionButton!.child ?? SizedBox(),
-                    // ),
-                  ]
-                : [],
-          ],
-          automaticallyImplyLeading: false,
-          leading: _getLeading(context),
-          pinned: true,
-        ),
+    final hasFAB = AppTheme.of(context).hasFAB;
+    var appBar = _getAppBar(context, hasFAB);
+
+    var scrollView = CustomScrollView(
+      slivers: [
+        appBar,
+        body!,
       ],
-      // SliverList(delegate: SliverChildListDelegate([body])),
     );
+
+    final appBarHeight = appBar is SliverAppBar
+        ? appBar.toolbarHeight
+        : appBar is AppBar
+            ? appBar.preferredSize.height
+            : 0.0;
+    final refreshOffset = MediaQuery.of(context).padding.top + appBarHeight;
+    final sliver = sliverOnRefresh != null
+        ? Refreshable(
+            child: scrollView,
+            onRefresh: sliverOnRefresh!,
+            edgeOffset: refreshOffset,
+          )
+        : scrollView;
+
+    return shouldUseNavigationRail(context)
+        ? Row(
+            children: [
+              _getNavigationRail(context) ?? SizedBox.shrink(),
+              Expanded(child: sliver),
+            ],
+          )
+        : sliver;
   }
 
   Widget? _getLeading(BuildContext context) {
@@ -127,7 +115,7 @@ class AppScaffold extends StatelessWidget {
         : null;
   }
 
-  PreferredSizeWidget? _getAppBar(BuildContext context, bool hasFAB) {
+  Widget _getAppBar(BuildContext context, bool hasFAB) {
     final border = Theme.of(context).dividerTheme.thickness != null && Theme.of(context).dividerTheme.color != null
         ? Border(
             bottom: BorderSide(
@@ -137,27 +125,35 @@ class AppScaffold extends StatelessWidget {
           )
         : null;
 
-    return AppBar(
-      shape: border != null ? border : null,
-      title: Text(
-        title,
-        style: Theme.of(context).appBarTheme.titleTextStyle,
-      ),
-      actions: [
-        ...actions != null ? actions! : [],
-        ...!hasFAB && floatingActionButton != null
-            ? [
-                floatingActionButton!,
-                // TextButton(
-                //   onPressed: floatingActionButton!.onPressed,
-                //   child: floatingActionButton!.child ?? SizedBox(),
-                // ),
-              ]
-            : [],
-      ],
-      automaticallyImplyLeading: false,
-      leading: _getLeading(context),
-    );
+    final shape = border != null ? border : null;
+    final title = Text(this.title, style: Theme.of(context).appBarTheme.titleTextStyle);
+    final actions = [
+      ...this.actions != null ? this.actions! : <Widget>[],
+      ...!hasFAB && floatingActionButton != null ? [floatingActionButton!] : <Widget>[],
+    ];
+    final automaticallyImplyLeading = false;
+    final leading = _getLeading(context);
+
+    return sliverMode
+        ? SliverAppBar(
+            shape: shape,
+            title: title,
+            actions: actions,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            leading: leading,
+            pinned: true,
+          )
+        : AppBar(
+            shape: shape,
+            title: title,
+            actions: actions,
+            automaticallyImplyLeading: automaticallyImplyLeading,
+            leading: leading,
+          );
+  }
+
+  Widget? _getNavigationRail(BuildContext context) {
+    return navigationRail;
   }
 
   Widget? _getBottomNavigationBar(BuildContext context) {

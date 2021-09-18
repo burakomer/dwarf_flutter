@@ -28,19 +28,60 @@ class _TabPageScaffoldState extends State<TabPageScaffold> {
   Widget build(BuildContext context) {
     final tabs = widget.tabBuilder(context);
     final currentTab = tabs[_tabIndex];
-    return AppScaffold(
+
+    return
+        // currentTab.sliverMode ?
+        AppScaffold.sliver(
       title: currentTab.title,
-      body: IndexedStack(
-        index: _tabIndex,
-        children: tabs.map((e) => e.body).toList(),
-      ),
+      body: tabs[_tabIndex].body,
       actions: currentTab.actions,
       bottomBar: BottomNavigationBar(
         currentIndex: _tabIndex,
         onTap: (value) => setState(() => _tabIndex = value),
         items: widget.tabButtons,
       ),
+      navigationRail: NavigationRail(
+        selectedIndex: _tabIndex,
+        onDestinationSelected: (value) => setState(() => _tabIndex = value),
+        labelType: NavigationRailLabelType.selected,
+        destinations: widget.tabButtons
+            .map(
+              (e) => NavigationRailDestination(
+                icon: e.icon,
+                selectedIcon: e.activeIcon,
+                label: Text(e.label ?? ""),
+              ),
+            )
+            .toList(),
+      ),
       floatingActionButton: currentTab.floatingActionButton,
-    );
+      onRefresh: currentTab.onRefresh,
+    )
+        // : AppScaffold(
+        //     title: currentTab.title,
+        //     body: tabs[_tabIndex].body,
+        //     actions: currentTab.actions,
+        //     bottomBar: BottomNavigationBar(
+        //       currentIndex: _tabIndex,
+        //       onTap: (value) => setState(() => _tabIndex = value),
+        //       items: widget.tabButtons,
+        //     ),
+        //     navigationRail: NavigationRail(
+        //       selectedIndex: _tabIndex,
+        //       onDestinationSelected: (value) => setState(() => _tabIndex = value),
+        //       labelType: NavigationRailLabelType.selected,
+        //       destinations: widget.tabButtons
+        //           .map(
+        //             (e) => NavigationRailDestination(
+        //               icon: e.icon,
+        //               selectedIcon: e.activeIcon,
+        //               label: Text(e.label ?? ""),
+        //             ),
+        //           )
+        //           .toList(),
+        //     ),
+        //     floatingActionButton: currentTab.floatingActionButton,
+        //   );
+        ;
   }
 }

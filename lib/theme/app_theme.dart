@@ -94,6 +94,15 @@ class AppTheme {
         // selectedIconTheme: IconThemeData(size: 48.0)
         // type: BottomNavigationBarType.fixed,
       ),
+      navigationRailTheme: NavigationRailThemeData(
+        backgroundColor: brightness == Brightness.light ? primaryColor : darkColorAccent,
+        selectedIconTheme: IconThemeData(color: barColor.contrastingTextColor()),
+        unselectedIconTheme: IconThemeData(color: barColor.contrastingTextColor()),
+        selectedLabelTextStyle: TextStyle(color: barColor.contrastingTextColor()),
+        unselectedLabelTextStyle: TextStyle(color: barColor.contrastingTextColor()),
+        elevation: 10.0,
+        // showUnselectedLabels: false,
+      ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
           borderRadius: borderRadius,
