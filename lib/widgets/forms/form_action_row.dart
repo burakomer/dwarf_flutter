@@ -1,5 +1,6 @@
-import 'package:dwarf_flutter/config/localization.dart';
 import 'package:flutter/material.dart';
+
+import '../../config/localization.dart';
 
 class FormActionRow extends StatelessWidget {
   final bool showDelete;

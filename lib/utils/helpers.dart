@@ -1,6 +1,7 @@
-import 'package:dwarf_flutter/config/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_material_color_picker/flutter_material_color_picker.dart';
+
+import '../config/localization.dart';
 
 void showSnackbar({
   required BuildContext context,
@@ -13,7 +14,7 @@ void showSnackbar({
 
 Future<T?> showTallBottomSheet<T>({
   required BuildContext context,
-  required Widget content,
+  required Widget Function(BuildContext, ScrollController) builder,
 }) async {
   final theme = Theme.of(context).bottomSheetTheme;
   return await showModalBottomSheet(
@@ -31,13 +32,10 @@ Future<T?> showTallBottomSheet<T>({
             decoration: BoxDecoration(
               color: theme.backgroundColor,
               borderRadius: BorderRadius.vertical(
-                top: Radius.circular(21.0),
+                top: Radius.circular(16.0),
               ),
             ),
-            child: SingleChildScrollView(
-              controller: controller,
-              child: content,
-            ),
+            child: builder(context, controller),
           );
         },
       );

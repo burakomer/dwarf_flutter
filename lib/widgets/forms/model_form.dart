@@ -1,9 +1,9 @@
-import 'package:dwarf_flutter/config/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../data/models/base_model.dart';
 import '../../../utils/extensions.dart';
+import '../../config/localization.dart';
 import '../../domain/cubit/model_cubit.dart';
 import '../../utils/helpers.dart';
 

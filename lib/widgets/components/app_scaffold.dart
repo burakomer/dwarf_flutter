@@ -1,8 +1,7 @@
-import 'package:dwarf_flutter/widgets/components/refreshable.dart';
 import 'package:flutter/material.dart';
-import 'package:sliver_header_delegate/sliver_header_delegate.dart';
 
 import '../../theme/app_theme.dart';
+import 'refreshable.dart';
 
 class AppScaffold extends StatelessWidget {
   final String title;
