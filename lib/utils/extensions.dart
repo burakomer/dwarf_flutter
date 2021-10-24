@@ -79,6 +79,10 @@ extension WidgetListExtensions on List<Widget> {
     if (removeLast) list.removeLast();
     return list;
   }
+
+  List<Widget> wrapWithScale(double scale) {
+    return this.map((e) => Transform.scale(scale: scale, child: e)).toList();
+  }
 }
 
 extension WidgetNListExtensions on List<Widget?> {
