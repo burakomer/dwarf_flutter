@@ -53,7 +53,7 @@ class AutocompleteTextField<T extends Object> extends StatelessWidget {
           onChanged: onSaved, // ? Is this feasible?
         );
       },
-      optionsViewBuilder: (context, onSelected, options) {
+      optionsViewBuilder: (context, onSelected, options) { // TODO: Fix this. It gives an error when dismissed with tapping outside.
         return Align(
           alignment: Alignment.topLeft,
           child: Card(
